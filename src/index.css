@@ -497,6 +497,39 @@ button {
   border-color: var(--poke-yellow);
 }
 
+.type-filter {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  overscroll-behavior: contain;
+  padding: 0 20px 14px;
+  flex-shrink: 0;
+}
+
+.type-filter__chip {
+  flex-shrink: 0;
+  border: 2px solid color-mix(in srgb, var(--chip-color) 55%, transparent);
+  background: color-mix(in srgb, var(--chip-color) 16%, transparent);
+  color: var(--text-main);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  transition: transform 0.1s ease;
+}
+
+.type-filter__chip:hover {
+  transform: translateY(-2px);
+}
+
+.type-filter__chip--active {
+  background: var(--chip-color);
+  color: #1a1a1a;
+  border-color: var(--chip-color);
+}
+
 .modal__loading {
   display: flex;
   flex-direction: column;

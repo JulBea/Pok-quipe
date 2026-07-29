@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import type { Generation, Pokemon } from "../data/types";
 import { Pokeball } from "./Pokeball";
+import { TYPE_COLORS, typeColor, typeLabel } from "../utils/typeColors";
 
 interface PokemonPickerModalProps {
   generation: Generation;
@@ -11,16 +12,20 @@ interface PokemonPickerModalProps {
   onClose: () => void;
 }
 
+const ALL_TYPES = Object.keys(TYPE_COLORS);
+
 export function PokemonPickerModal({ generation, pokemonList, loading, error, onSelect, onClose }: PokemonPickerModalProps) {
   const [query, setQuery] = useState("");
+  const [activeType, setActiveType] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return pokemonList;
-    return pokemonList.filter(
-      (p) => p.displayName.toLowerCase().includes(q) || p.name.toLowerCase().includes(q) || String(p.id).includes(q)
-    );
-  }, [pokemonList, query]);
+    return pokemonList.filter((p) => {
+      if (activeType && !p.types.includes(activeType)) return false;
+      if (!q) return true;
+      return p.displayName.toLowerCase().includes(q) || p.name.toLowerCase().includes(q) || String(p.id).includes(q);
+    });
+  }, [pokemonList, query, activeType]);
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -37,6 +42,26 @@ export function PokemonPickerModal({ generation, pokemonList, loading, error, on
           onChange={(e) => setQuery(e.target.value)}
           autoFocus
         />
+
+        <div className="type-filter">
+          <button
+            className={`type-filter__chip${activeType === null ? " type-filter__chip--active" : ""}`}
+            style={{ "--chip-color": "#5a5f8a" } as React.CSSProperties}
+            onClick={() => setActiveType(null)}
+          >
+            Tous
+          </button>
+          {ALL_TYPES.map((t) => (
+            <button
+              key={t}
+              className={`type-filter__chip${activeType === t ? " type-filter__chip--active" : ""}`}
+              style={{ "--chip-color": typeColor(t) } as React.CSSProperties}
+              onClick={() => setActiveType((prev) => (prev === t ? null : t))}
+            >
+              {typeLabel(t)}
+            </button>
+          ))}
+        </div>
 
         {loading && (
           <div className="modal__loading">
@@ -56,7 +81,11 @@ export function PokemonPickerModal({ generation, pokemonList, loading, error, on
                 <span className="picker-item__name">{p.displayName}</span>
               </button>
             ))}
-            {filtered.length === 0 && <p className="picker-grid__empty">Aucun Pokémon ne correspond à "{query}".</p>}
+            {filtered.length === 0 && (
+              <p className="picker-grid__empty">
+                Aucun Pokémon ne correspond {query ? `à "${query}"` : "à ce filtre"}.
+              </p>
+            )}
           </div>
         )}
       </div>

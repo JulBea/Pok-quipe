@@ -17,7 +17,9 @@ function loadTeam(genId: number): TeamSlot[] {
     const raw = localStorage.getItem(storageKey(genId));
     if (!raw) return Array(TEAM_SIZE).fill(null);
     const parsed = JSON.parse(raw) as TeamSlot[];
-    if (Array.isArray(parsed) && parsed.length === TEAM_SIZE && parsed.every(isValidSlot)) return parsed;
+    if (Array.isArray(parsed) && parsed.length === TEAM_SIZE && parsed.every(isValidSlot)) {
+      return parsed.map((slot) => (slot ? { ...slot, variants: slot.variants ?? [] } : slot));
+    }
     return Array(TEAM_SIZE).fill(null);
   } catch {
     return Array(TEAM_SIZE).fill(null);

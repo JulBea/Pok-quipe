@@ -1,3 +1,13 @@
+export interface PokemonVariant {
+  id: number;
+  name: string;
+  displayName: string;
+  formLabel: string;
+  spriteUrl: string;
+  thumbSpriteUrl: string;
+  types: string[];
+}
+
 export interface Pokemon {
   id: number;
   name: string;
@@ -5,6 +15,7 @@ export interface Pokemon {
   spriteUrl: string;
   thumbSpriteUrl: string;
   types: string[];
+  variants: PokemonVariant[];
 }
 
 export interface Generation {

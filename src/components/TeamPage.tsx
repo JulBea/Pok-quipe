@@ -45,7 +45,7 @@ export function TeamPage() {
     return () => {
       cancelled = true;
     };
-  }, [generation?.id]);
+  }, [generation]);
 
   useEffect(() => {
     const code = searchParams.get("team");

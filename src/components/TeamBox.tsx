@@ -1,3 +1,4 @@
+import type { DragEvent } from "react";
 import type { TeamSlot } from "../data/types";
 import { typeColor, typeLabel } from "../utils/typeColors";
 
@@ -6,12 +7,29 @@ interface TeamBoxProps {
   onAdd: () => void;
   onEdit: () => void;
   onRemove: () => void;
+  draggable?: boolean;
+  isDragging?: boolean;
+  onDragStart?: () => void;
+  onDragOver?: (e: DragEvent) => void;
+  onDrop?: () => void;
+  onDragEnd?: () => void;
 }
 
-export function TeamBox({ slot, onAdd, onEdit, onRemove }: TeamBoxProps) {
+export function TeamBox({
+  slot,
+  onAdd,
+  onEdit,
+  onRemove,
+  draggable,
+  isDragging,
+  onDragStart,
+  onDragOver,
+  onDrop,
+  onDragEnd,
+}: TeamBoxProps) {
   if (!slot) {
     return (
-      <button className="team-box team-box--empty" onClick={onAdd}>
+      <button className="team-box team-box--empty" onClick={onAdd} onDragOver={onDragOver} onDrop={onDrop}>
         <span className="team-box__plus">+</span>
         <span className="team-box__label">Ajouter</span>
       </button>
@@ -22,7 +40,15 @@ export function TeamBox({ slot, onAdd, onEdit, onRemove }: TeamBoxProps) {
   const glow = typeColor(mainType);
 
   return (
-    <div className="team-box team-box--filled" style={{ "--type-glow": glow } as React.CSSProperties}>
+    <div
+      className={`team-box team-box--filled${isDragging ? " team-box--dragging" : ""}`}
+      style={{ "--type-glow": glow } as React.CSSProperties}
+      draggable={draggable}
+      onDragStart={onDragStart}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+      onDragEnd={onDragEnd}
+    >
       <div className="team-box__actions">
         <button className="team-box__action" onClick={onEdit} title="Changer de Pokémon" aria-label="Changer">
           ✎

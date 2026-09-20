@@ -53,5 +53,13 @@ export function useTeam(genId: number) {
     setSlot(index, null);
   }, [setSlot]);
 
-  return { slots, setSlot, clearSlot };
+  const reorderSlots = useCallback((fromIndex: number, toIndex: number) => {
+    setSlots((prev) => {
+      const next = [...prev];
+      [next[fromIndex], next[toIndex]] = [next[toIndex], next[fromIndex]];
+      return next;
+    });
+  }, []);
+
+  return { slots, setSlot, clearSlot, reorderSlots };
 }

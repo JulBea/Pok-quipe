@@ -6,6 +6,8 @@
 
 Sélection par génération (Kanto à Paldea + un mode "Pokédex complet"), recherche et filtre par type, gestion des formes alternatives (Méga, régionales, Gigamax), analyse défensive de l'équipe, partage par lien et export en image — sans backend, tout en local.
 
+**[→ Voir le site en ligne](https://xn--pokquipe-d1a.fr/)**
+
 [![CI](https://github.com/JulBea/Pok-quipe/actions/workflows/ci.yml/badge.svg)](https://github.com/JulBea/Pok-quipe/actions/workflows/ci.yml)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React_19-61DAFB?style=flat&logo=react&logoColor=black)](https://react.dev/)
